@@ -15,6 +15,8 @@ import lombok.ToString;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Response {
 
+	private boolean error;
+	
 	private String msg;
 
 	private String status;
@@ -22,16 +24,4 @@ public class Response {
 	private Employee emp;
 	
 	private TaxCompensation tax;
-	//
-//	private long empid;
-//
-//	private String firstName;
-//
-//	private String lastName;
-//
-//	private Date doj;
-//
-//	private double salary;
-//
-//	private long mobileNumber;
 }

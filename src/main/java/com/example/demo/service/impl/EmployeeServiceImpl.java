@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Employee;
 import com.example.demo.entity.TaxCompensation;
+import com.example.demo.exception.EmployeeNotFoundException;
 import com.example.demo.repositories.EmployeeRepo;
 import com.example.demo.service.EmployeeService;
 
@@ -27,18 +28,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Employee getEmpDetails(Long id) {
+	public Employee getEmpDetails(Long id) throws EmployeeNotFoundException {
 		Optional<Employee> employeeDetails = employeeRepo.findById(id);
-		System.out.println(employeeDetails.get());
 		if (employeeDetails.isPresent()) {
 			return employeeDetails.get();
 		} else {
-			return null;
+			throw new EmployeeNotFoundException("Employee not found with empId: "+id);
 		}
 	}
 
 	@Override
-	public TaxCompensation annualSal(Long id) throws ParseException {
+	public TaxCompensation annualSal(Long id) throws ParseException, EmployeeNotFoundException {
 		Optional<Employee> employeeDetails = employeeRepo.findById(id);
 		if (employeeDetails.isPresent()) {
 			System.out.println(employeeDetails.get());
@@ -62,7 +62,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			tax.setInHandSalary(annualSal - taxAmount - cessAmount);
 			return tax;
 		} else {
-			return null;
+			throw new EmployeeNotFoundException("Employee not found with empId: "+id);
 		}
 	}
 
